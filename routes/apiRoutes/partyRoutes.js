@@ -46,3 +46,5 @@ router.get('/parties', (req, res) => {
       res.json({ message: 'successfully deleted', changes: this.changes });
     });
   });
+
+  module.exports = router;
