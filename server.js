@@ -35,17 +35,33 @@ const db = new sqlite3.Database('./db/election.db', err => {
 //     console.log(result, this, this.changes);
 //   });
 // Create a candidate
-const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) 
-              VALUES (?,?,?,?)`;
-const params = [1, 'Ronald', 'Firbank', 1];
-// ES5 function, not arrow function, to use this
-db.run(sql, params, function(err, result) {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result, this.lastID);
-});
+// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) 
+//               VALUES (?,?,?,?)`;
+// const params = [1, 'Ronald', 'Firbank', 1];
+// // ES5 function, not arrow function, to use this
+// db.run(sql, params, function(err, result) {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log(result, this.lastID);
+// });
 
+// Get all candidates
+app.get('/api/candidates', (req, res) => {
+    const sql = `SELECT * FROM candidates`;
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+  
+      res.json({
+        message: 'success',
+        data: rows
+      });
+    });
+  });
 
 
 // Default response for any other request(Not Found) Catch all
